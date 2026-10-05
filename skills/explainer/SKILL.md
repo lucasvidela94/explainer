@@ -16,7 +16,7 @@ An **explainer** is a throwaway artifact that climbs the understanding ladder: c
 
 1. **Fix facts.** Run `explain.sh` resolved from this skill's directory (global or project, not from your cwd): `<skill-dir>/scripts/explain.sh <target> --level <level>`. A relative `--out` resolves from your invocation cwd. Work only in the printed directory. Store the real material there as `facts.md`: diff, code, or concept description. Never invent paths: the printed directory is the only valid location. Never write outputs inside the skill directory. Done when every claim in the artifact traces to that source; unverified stays out.
 
-2. **Pick level.** `text` to read, `diagram` for flows and relations, `html` to explore at your own pace. Done when the level answers the request without paying for the next one.
+2. **Pick level.** Default `text` when the user names no level (cheap first). Upgrade only on signal: `diagram` when the request names flows, relations, protocols, sequences, or architecture; `html` when it names explore, interactive, page, or share. If the signal is genuinely ambiguous, default `text`, state the assumption in one line, and offer the next level after presenting. Done when the level answers the request without paying for the next one.
 
 3. **Generate.** Follow the level reference: [STE100](references/STE100.md), [DIAGRAM](references/DIAGRAM.md), or [HTML](references/HTML.md). Done when the artifact exists in the run directory and covers every fact from step 1.
 
