@@ -11,7 +11,7 @@ Un **explainer** es un artefacto descartable que sube la escalera de understandi
 
 ## Pasos
 
-1. **Fijar hechos.** Junta el material real con `scripts/explain.sh <target> --level <nivel>`: diff, codigo o descripcion del concepto en `facts.md` dentro de un directorio fresco por corrida. Termina cuando cada afirmacion del artefacto traza a esa fuente; lo no verificado queda fuera.
+1. **Fijar hechos.** Corre `scripts/explain.sh <target> --level <nivel>` y trabaja solo en el directorio que imprime. Guarda ahi el material real como `facts.md`: diff, codigo o descripcion del concepto. No inventes rutas: el directorio impreso es la unica ubicacion valida. Termina cuando cada afirmacion del artefacto traza a esa fuente; lo no verificado queda fuera.
 
 2. **Elegir nivel.** `text` para leer, `diagram` para flujos y relaciones, `html` para explorar a tu ritmo. Termina cuando el nivel responde a lo pedido sin pagar el siguiente.
 
