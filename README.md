@@ -1,6 +1,6 @@
 # explainer
 
-[![skills.sh](https://skills.sh/b/lucasvidela94/explainer)](https://skills.sh/lucasvidela94/explainer) ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
 Explain any PR, change or concept at the right level: controlled text, diagram or interactive HTML. Disposable artifacts for understanding LLM outputs.
 
