@@ -5,20 +5,24 @@ set -euo pipefail
 
 TARGET="${1:-}"
 LEVEL="text"
-OUT="out"
+OUT=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --level) LEVEL="${2:-text}"; shift 2 ;;
-    --out) OUT="${2:-out}"; shift 2 ;;
+    --out) OUT="${2:-}"; shift 2 ;;
     -h|--help) sed -n '2,12p' "$0"; exit 0 ;;
     *) TARGET="$1"; shift ;;
   esac
 done
 
-[[ -z "$TARGET" ]] && { echo "uso: explain <pr-url|archivo|tema> --level text|diagram|html [--out out]" >&2; exit 1; }
+[[ -z "$TARGET" ]] && { echo "uso: explain <pr-url|archivo|tema> --level text|diagram|html [--out dir]" >&2; exit 1; }
 [[ "$LEVEL" =~ ^(text|diagram|html)$ ]] || { echo "nivel invalido: $LEVEL" >&2; exit 1; }
 
+# Cada corrida en un directorio fresco: nunca se pisan entre si ni ensucian el repo.
+if [[ -z "$OUT" ]]; then
+  OUT="${TMPDIR:-/tmp}/explainer-$(date +%Y%m%d-%H%M%S)"
+fi
 mkdir -p "$OUT"
 
 # 1. hechos

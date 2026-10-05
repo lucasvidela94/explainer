@@ -11,15 +11,15 @@ Un **explainer** es un artefacto descartable que sube la escalera de understandi
 
 ## Pasos
 
-1. **Fijar hechos.** Junta el material real con `scripts/explain.sh <target> --level <nivel>`: diff, codigo o descripcion del concepto en `out/facts.md`. Termina cuando cada afirmacion del artefacto traza a esa fuente; lo no verificado queda fuera.
+1. **Fijar hechos.** Junta el material real con `scripts/explain.sh <target> --level <nivel>`: diff, codigo o descripcion del concepto en `facts.md` dentro de un directorio fresco por corrida. Termina cuando cada afirmacion del artefacto traza a esa fuente; lo no verificado queda fuera.
 
 2. **Elegir nivel.** `text` para leer, `diagram` para flujos y relaciones, `html` para explorar a tu ritmo. Termina cuando el nivel responde a lo pedido sin pagar el siguiente.
 
-3. **Generar.** Sigue la referencia del nivel: [STE100](references/STE100.md), [DIAGRAM](references/DIAGRAM.md) o [HTML](references/HTML.md). Termina cuando el artefacto existe en `out/` y cubre todos los hechos del paso 1.
+3. **Generar.** Sigue la referencia del nivel: [STE100](references/STE100.md), [DIAGRAM](references/DIAGRAM.md) o [HTML](references/HTML.md). Termina cuando el artefacto existe en el directorio de la corrida y cubre todos los hechos del paso 1.
 
-4. **Verificar.** Relee el artefacto contra `out/facts.md`: sin afirmaciones nuevas, sin jerga innecesaria, sin nodo o escena sin fuente. Termina cuando todo lo mostrado traza a hechos y el artefacto abre correctamente.
+4. **Verificar.** Relee el artefacto contra `facts.md`: sin afirmaciones nuevas, sin jerga innecesaria, sin nodo o escena sin fuente. Termina cuando todo lo mostrado traza a hechos y el artefacto abre correctamente. Devuelve la ruta absoluta del directorio.
 
 ## Reglas
 
 - Lo barato primero: nunca subas de nivel si el actual alcanza.
-- Artefactos van a `out/`, nunca al repo salvo que el usuario lo pida.
+- Cada corrida vive en su propio directorio fresco bajo temp; nunca escribas en el repo salvo `--out` explicito del usuario.

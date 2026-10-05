@@ -79,7 +79,7 @@ skills/explainer/SKILL.md      # 4 steps: facts → level → generate → verif
   references/STE100.md         # controlled writing
   references/DIAGRAM.md        # Mermaid + SVG verification
   references/HTML.md           # proven single-file pattern
-scripts/explain.sh             # gathers facts, scaffolds into out/
+scripts/explain.sh             # gathers facts, scaffolds into a fresh temp dir
 ```
 
 Rules: cheap first, every claim traces to verified facts, nothing lands in the repo unless you ask.
