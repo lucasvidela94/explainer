@@ -90,6 +90,10 @@ Rules: cheap first, every claim traces to verified facts, disposable under syste
 
 Works with OpenCode, Claude Code, Cursor and any agent that reads `SKILL.md` (`npx skills add` installs it into yours).
 
+## Security note
+
+Expected install score: Gen Safe / Socket 0 / **Snyk Med Risk**. That is the correct price for what this skill does: it runs a local shell script (`gh`, `git`, file writes to system temp), fetches one CDN script (Tailwind) in HTML scaffolds, optionally runs `npx -y @mermaid-js/mermaid-cli`, and auto-opens the result. No exfiltration, no credentials, no obfuscation — review `skills/explainer/` before installing.
+
 ## Sources
 
 - **Karpathy**: the text → diagram → HTML → video ladder and the legwork/oversight frame (link above). We implement the first three levels; video was left out on purpose.
