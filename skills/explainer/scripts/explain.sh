@@ -35,6 +35,20 @@ mkdir -p "$OUT"
     echo '```diff'
     gh pr diff "$TARGET" 2>/dev/null || echo "(gh pr diff fallo: pega el diff a mano)"
     echo '```'
+  elif [[ -d "$TARGET" ]]; then
+    echo "## Directorio"
+    echo '```'
+    ls -la "$TARGET" | head -50
+    echo '```'
+    if git -C "$TARGET" rev-parse --git-dir >/dev/null 2>&1; then
+      echo
+      echo "## Git (ultimo commit + estado)"
+      echo '```'
+      git -C "$TARGET" log --oneline -5
+      echo "---"
+      git -C "$TARGET" status --short --branch | head -30
+      echo '```'
+    fi
   elif [[ -e "$TARGET" ]]; then
     echo "## Archivo"
     echo '```'
