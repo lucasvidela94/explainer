@@ -20,7 +20,7 @@ An **explainer** is a throwaway artifact that climbs the understanding ladder: c
 
 3. **Generate.** Follow the level reference: [STE100](references/STE100.md), [DIAGRAM](references/DIAGRAM.md), or [HTML](references/HTML.md). Done when the artifact exists in the run directory and covers every fact from step 1.
 
-4. **Verify and open.** Re-read the artifact against `facts.md`: no new claims, no needless jargon, no node or scene without a source. Then open the final result non-blocking so the agent never hangs: `(nohup xdg-open <file> >/dev/null 2>&1 &)` on Linux, `(open <file> >/dev/null 2>&1 &)` on macOS, `(start "" <file>)` on Windows. Never wait for the viewer. If the opener fails (headless/SSH), fall back to the absolute path. Done when everything shown traces to facts and the artifact opens correctly. Present the content inline for `text`/`diagram`, return the absolute directory path always.
+4. **Verify and open.** Re-read the artifact against `facts.md`: no new claims, no needless jargon, no node or scene without a source. Then open the final result non-blocking so the agent never hangs: `(nohup xdg-open <file> >/dev/null 2>&1 &)` on Linux, `(open <file> >/dev/null 2>&1 &)` on macOS, `(start "" <file>)` on Windows. Open `explainer.md` in a markdown reader, `diagram.png` in an image viewer (never the SVG: its `foreignObject` labels render blank in editors like Pinta), `index.html` in the browser. Done when everything shown traces to facts and the artifact opens correctly. Present the content inline for `text`/`diagram`, return the absolute directory path always.
 
 ## Rules
 
