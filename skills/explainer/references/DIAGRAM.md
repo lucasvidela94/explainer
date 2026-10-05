@@ -1,5 +1,5 @@
 # Diagram
 
-Un diagrama Mermaid en `out/diagram.mmd`: flowchart para flujos, sequence para protocolos, state para lifecycles. Un nodo por hecho, una flecha por causalidad real.
+One Mermaid diagram in `out/diagram.mmd`: flowchart for flows, sequence for protocols, state for lifecycles. One node per fact, one edge per real causality. `out` is the run dir under system temp unless `--out` says otherwise.
 
-Verifica renderizando: `npx -y @mermaid-js/mermaid-cli -i out/diagram.mmd -o out/diagram.svg` o pegandolo en el visor del editor. Termina cuando el SVG abre y cada nodo traza a `out/facts.md`.
+Verify by rendering: `npx -y @mermaid-js/mermaid-cli -i out/diagram.mmd -o out/diagram.svg` or paste it into the editor viewer. Done when the SVG opens and every node traces to `out/facts.md`.

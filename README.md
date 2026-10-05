@@ -69,7 +69,11 @@ facts -> level -> generate -> verify process.
 Or directly via CLI (scaffold + facts, the agent writes the content):
 
 ```bash
-skills/explainer/scripts/explain.sh <pr-url|file|topic> --level text|diagram|html
+skills/explainer/scripts/explain.sh <pr-url|file|topic> --level text|diagram|html [--out dir|last]
+# default: disposable dir under system temp + symlink explainer-last
+# level-up: reuse with --out last
+# keep/share: --out .scratch/explainers/<slug>/
+# OpenCode: export EXPLAINER_BASE=/tmp/opencode to skip the permission prompt
 ```
 
 ## Structure
@@ -82,7 +86,7 @@ skills/explainer/SKILL.md      # 4 steps: facts → level → generate → verif
   scripts/explain.sh           # gathers facts, scaffolds into a fresh temp dir
 ```
 
-Rules: cheap first, every claim traces to verified facts, nothing lands in the repo unless you ask.
+Rules: cheap first, every claim traces to verified facts, disposable under system temp by default, nothing lands in the repo unless you pass `--out`.
 
 Works with OpenCode, Claude Code, Cursor and any agent that reads `SKILL.md` (`npx skills add` installs it into yours).
 

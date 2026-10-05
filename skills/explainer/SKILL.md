@@ -1,25 +1,29 @@
 ---
 name: explainer
 description: >
-  Explicar un PR, cambio o concepto en el nivel adecuado: texto STE100,
-  diagrama o HTML interactivo.
+  Explain a PR, change or concept at the right level: STE100 text,
+  diagram or interactive HTML. Use when user says explain this,
+  what changed, help me understand, turn into diagram or page.
 ---
 
 # Explainer
 
-Un **explainer** es un artefacto descartable que sube la escalera de understanding: texto controlado, diagrama, pagina interactiva. Cada nivel es mas caro que el anterior; empieza abajo y sube solo si el usuario lo pide.
+No setup required. Works global or project-scoped, from any directory, with or without a repo.
 
-## Pasos
+An **explainer** is a throwaway artifact that climbs the understanding ladder: controlled text, diagram, interactive page. Each level costs more than the previous one; start low, level up only on request.
 
-1. **Fijar hechos.** Corre `scripts/explain.sh <target> --level <nivel>` (vive junto a esta skill) y trabaja solo en el directorio que imprime. Guarda ahi el material real como `facts.md`: diff, codigo o descripcion del concepto. No inventes rutas: el directorio impreso es la unica ubicacion valida. Termina cuando cada afirmacion del artefacto traza a esa fuente; lo no verificado queda fuera.
+## Steps
 
-2. **Elegir nivel.** `text` para leer, `diagram` para flujos y relaciones, `html` para explorar a tu ritmo. Termina cuando el nivel responde a lo pedido sin pagar el siguiente.
+1. **Fix facts.** Run `explain.sh` resolved from this skill's directory (global or project, not from your cwd): `<skill-dir>/scripts/explain.sh <target> --level <level>`. A relative `--out` resolves from your invocation cwd. Work only in the printed directory. Store the real material there as `facts.md`: diff, code, or concept description. Never invent paths: the printed directory is the only valid location. Never write outputs inside the skill directory. Done when every claim in the artifact traces to that source; unverified stays out.
 
-3. **Generar.** Sigue la referencia del nivel: [STE100](references/STE100.md), [DIAGRAM](references/DIAGRAM.md) o [HTML](references/HTML.md). Termina cuando el artefacto existe en el directorio de la corrida y cubre todos los hechos del paso 1.
+2. **Pick level.** `text` to read, `diagram` for flows and relations, `html` to explore at your own pace. Done when the level answers the request without paying for the next one.
 
-4. **Verificar.** Relee el artefacto contra `facts.md`: sin afirmaciones nuevas, sin jerga innecesaria, sin nodo o escena sin fuente. Termina cuando todo lo mostrado traza a hechos y el artefacto abre correctamente. Devuelve la ruta absoluta del directorio.
+3. **Generate.** Follow the level reference: [STE100](references/STE100.md), [DIAGRAM](references/DIAGRAM.md), or [HTML](references/HTML.md). Done when the artifact exists in the run directory and covers every fact from step 1.
 
-## Reglas
+4. **Verify.** Re-read the artifact against `facts.md`: no new claims, no needless jargon, no node or scene without a source. Done when everything shown traces to facts and the artifact opens correctly. Return the absolute directory path.
 
-- Lo barato primero: nunca subas de nivel si el actual alcanza.
-- Cada corrida vive en su propio directorio fresco bajo temp; nunca escribas en el repo salvo `--out` explicito del usuario.
+## Rules
+
+- Cheap first: never level up while the current level answers the request.
+- Default temp: each run lives in a fresh directory under system temp (`$TMPDIR`, `/tmp` fallback, `%TEMP%` on Windows; override with `EXPLAINER_BASE`). OpenCode users can set `EXPLAINER_BASE=/tmp/opencode` to skip the permission prompt. Level up by reusing the same dir with `--out last`.
+- Local only when the user asks to keep/share/commit: then use `--out .scratch/explainers/<slug>/`. This is the only case that writes inside the repo.

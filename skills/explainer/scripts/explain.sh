@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# explain <target> --level text|diagram|html [--out out]
-# Mecanica, no inteligencia: junta hechos y arma el scaffold. El agente escribe el contenido.
+# explain <target> --level text|diagram|html [--out dir|last]
+# Mechanics, no intelligence: collect facts and scaffold. The agent writes the content.
 set -euo pipefail
 
-TARGET="${1:-}"
+TARGET=""
 LEVEL="text"
 OUT=""
 
@@ -16,33 +16,48 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-[[ -z "$TARGET" ]] && { echo "uso: explain <pr-url|archivo|tema> --level text|diagram|html [--out dir]" >&2; exit 1; }
-[[ "$LEVEL" =~ ^(text|diagram|html)$ ]] || { echo "nivel invalido: $LEVEL" >&2; exit 1; }
+[[ -z "$TARGET" ]] && { echo "usage: explain <pr-url|file|topic> --level text|diagram|html [--out dir|last]" >&2; exit 1; }
+[[ "$LEVEL" =~ ^(text|diagram|html)$ ]] || { echo "invalid level: $LEVEL" >&2; exit 1; }
 
-# Cada corrida en un directorio fresco: nunca se pisan entre si ni ensucian el repo.
+# Base: system temp, no brand. Override with EXPLAINER_BASE.
+# OpenCode users: export EXPLAINER_BASE=/tmp/opencode to skip the permission prompt.
+if [[ -n "${EXPLAINER_BASE:-}" ]]; then
+  BASE="$EXPLAINER_BASE"
+elif [[ "${OSTYPE:-}" == msys* || "${OSTYPE:-}" == cygwin* ]] && [[ -n "${TEMP:-}" ]]; then
+  BASE="$TEMP"
+else
+  BASE="${TMPDIR:-/tmp}"
+fi
+# Reuse last run: --out last resolves the explainer-last symlink.
+if [[ "$OUT" == "last" ]]; then
+  OUT="$(readlink -f "$BASE/explainer-last" 2>/dev/null || echo "")"
+  [[ -z "$OUT" ]] && { echo "no previous run in $BASE/explainer-last" >&2; exit 1; }
+fi
+# Each run in a fresh directory: runs never overwrite each other and never dirty the repo.
 if [[ -z "$OUT" ]]; then
-  OUT="${TMPDIR:-/tmp}/explainer-$(date +%Y%m%d-%H%M%S)"
+  OUT="$BASE/explainer-$(date +%Y%m%d-%H%M%S)"
 fi
 mkdir -p "$OUT"
+ln -sfn "$OUT" "$BASE/explainer-last"
 
-# 1. hechos
+# 1. facts
 {
   echo "# Facts: $TARGET"
   echo
   if [[ "$TARGET" =~ ^https?://|^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+#[0-9]+$ ]]; then
-    command -v gh >/dev/null || { echo "falta gh: https://cli.github.com/" >&2; exit 1; }
+    command -v gh >/dev/null || { echo "missing gh: https://cli.github.com/" >&2; exit 1; }
     echo "## PR diff"
     echo '```diff'
-    gh pr diff "$TARGET" 2>/dev/null || echo "(gh pr diff fallo: pega el diff a mano)"
+    gh pr diff "$TARGET" 2>/dev/null || echo "(gh pr diff failed: paste the diff manually)"
     echo '```'
   elif [[ -d "$TARGET" ]]; then
-    echo "## Directorio"
+    echo "## Directory"
     echo '```'
     ls -la "$TARGET" | head -50
     echo '```'
     if git -C "$TARGET" rev-parse --git-dir >/dev/null 2>&1; then
       echo
-      echo "## Git (ultimo commit + estado)"
+      echo "## Git (last commit + status)"
       echo '```'
       git -C "$TARGET" log --oneline -5
       echo "---"
@@ -50,15 +65,15 @@ mkdir -p "$OUT"
       echo '```'
     fi
   elif [[ -e "$TARGET" ]]; then
-    echo "## Archivo"
+    echo "## File"
     echo '```'
     head -200 "$TARGET"
     echo '```'
   else
-    echo "## Tema"
+    echo "## Topic"
     echo "$TARGET"
     echo
-    echo "(sin fuente local: el agente verifica cada afirmacion antes de escribir)"
+    echo "(no local source: the agent verifies every claim before writing)"
   fi
 } > "$OUT/facts.md"
 
@@ -67,15 +82,15 @@ case "$LEVEL" in
   text) touch "$OUT/explainer.md" ;;
   diagram) cat > "$OUT/diagram.mmd" <<'EOF'
 flowchart LR
-  A[hecho 1] --> B[hecho 2]
+  A[fact 1] --> B[fact 2]
 EOF
     ;;
   html) cat > "$OUT/index.html" <<'EOF'
-<!doctype html><html lang="es"><meta charset="utf-8"><title>Explainer</title>
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Explainer</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<body class="p-8"><h1 class="text-2xl font-bold">Explainer</h1><p>Hechos en facts.md. Contenido del agente aqui.</p></body></html>
+<body class="p-8"><h1 class="text-2xl font-bold">Explainer</h1><p>Facts in facts.md. Agent content here.</p></body></html>
 EOF
     ;;
 esac
 
-echo "OK: $OUT/facts.md + scaffold $LEVEL en $OUT/"
+echo "OK: $OUT/facts.md + scaffold $LEVEL in $OUT/"

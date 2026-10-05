@@ -1,7 +1,7 @@
 # HTML
 
-Una pagina autocontenida: Tailwind por CDN para layout, Mermaid por CDN para diagramas donde la relacion es grafo (flujos, dependencias, secuencias), divs/SVG hechos a mano para lo editorial (antes/despues, colapsables). Cada afirmacion visual traza a `out/facts.md`.
+One self-contained page: Tailwind via CDN for layout, Mermaid via CDN for graph relations (flows, dependencies, sequences), hand-made divs/SVG for editorial blocks (before/after, collapsibles). Every visual claim traces to `out/facts.md`.
 
-Escribela en el temp del sistema (`$TMPDIR`, fallback `/tmp`, `%TEMP%` en Windows) como `explainer-<timestamp>.html` para no ensuciar el repo, abrila con `xdg-open` (Linux), `open` (macOS) o `start` (Windows) y pasa la ruta absoluta al usuario.
+Write it to system temp (`$TMPDIR`, `/tmp` fallback, `%TEMP%` on Windows, `EXPLAINER_BASE` override) as `explainer-<timestamp>/index.html` so the repo stays clean, open it with `xdg-open` (Linux), `open` (macOS), or `start` (Windows), and hand the absolute path to the user. Reuse the same dir to level up. Use `.scratch/explainers/<slug>/` only when the user asks to keep/share.
 
-Termina cuando el archivo abre con doble click, todo lo interactivo funciona sin servidor y cada bloque tiene su antes/despues o su fuente a la vista.
+Done when the file opens with a double click, everything interactive works with no server, and every block shows its before/after or its source.
